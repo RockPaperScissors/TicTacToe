@@ -9,7 +9,7 @@ public class Game {
 	// maintain a stack of player moves
 	Stack<Move> moves = new Stack<Move>();
 	
-	Board board = new Board(Settings.BOARD_WIDTH, Settings.BOARD_HEIGHT);
+	Board board = new Board();
 	
 	Player player1;
 	Player player2;
@@ -26,12 +26,12 @@ public class Game {
 		System.out.print("Player 2 please enter your name: ");
 		player2 = new Player(board, console.nextLine() + " (P2)");
 		
-		// randomly assign who goes first
-		current = new Random().nextBoolean() ? player1 : player2;
-		System.out.println(current.getName() + " has been chosen to go first.");
+		// randomly assign who goes first and second
+		Player first = current = new Random().nextBoolean() ? player1 : player2;
 		Player second = current == player1 ? player2 : player1;
+		System.out.println(current.getName() + " has been chosen to go first.");
 		
-		// let the first player choose their tile
+		// let the first player choose their tile and give the second player what's left
 		System.out.print(current.getName() + ", please choose 'X' or 'O' as your preferred tile icon: ");
 		if (console.next().equalsIgnoreCase("x"))	// TODO: fix so that if first player chooses something other than 'x' or 'o' it doesn't automatically give them 'o'
 		{
@@ -48,13 +48,14 @@ public class Game {
 		System.out.println(current.getName() + " has selected tile icon '" + current.getIcon() + "'");
 		System.out.println(second.getName() + " has been automatically assigned tile icon '" + second.getIcon() + "'");
 		
-		// main game loop, alternate turns selecting tiles
+		
 		Player winner = null;
 		while (true)
 		{
 			// print the current board layout
 			board.print();
 			
+			// main game loop, alternate turns selecting tiles
 			while (board.hasFreeTile())
 			{
 				// add move to list of moves in game class
@@ -63,16 +64,15 @@ public class Game {
 				// print the current board layout
 				board.print();
 				
+				// switch turns
+				current = current == player1 ? player2 : player1;
+				
 				// check for winner
 				winner = winner();
 				if (winner != null) break;
-				
-				// switch turns
-				current = current == player1 ? player2 : player1;
 			}
 			
 			// inform player the game has ended with the appropriate response of how it ended
-			if (winner == null) winner = winner();
 			if (winner == null)
 			{
 				System.out.println("This game ended in a tie!");
@@ -82,22 +82,52 @@ public class Game {
 				System.out.println(winner.getName() + " won!");
 			}
 			
+			// TODO: save statistics at the end as an entire? or after each move?
+			// do we want to track abandoned game stats?
+			
 			// offer them to play again
 			System.out.println("Play again? [y/n]: ");
-			if (!console.nextLine().equalsIgnoreCase("y")) break;
+			if (!console.nextLine().equalsIgnoreCase("y")) break;	// TODO: fix this, as it doesn't seem to wait for input
 			
 			// TODO: they opted to play again, reset board, moves stack, determine who goes first again (if the winner went first or its a tie, switch who goes first)
+			board = new Board();
 			
 		}
 	}
 	
 	public Player winner()
 	{
-		int width = board.getWidth();
-		int height = board.getHeight();
+		// horizontal scan
+		for (int i = 0; i < Board.HEIGHT; i++)
+		{
+			if (board.getTile(0, i).getOwner() != null &&
+					board.getTile(0, i).getOwner() == board.getTile(1, i).getOwner() && 
+					board.getTile(1, i).getOwner() == board.getTile(2, i).getOwner())
+				return board.getTile(i, 0).getOwner();
+		}
 		
-		// TODO: check for winning player and return a reference if one is available
+		// vertical scan
+		for (int i = 0; i < Board.WIDTH; i++)
+		{
+			if (board.getTile(i, 0).getOwner() != null &&
+					board.getTile(i, 0).getOwner() == board.getTile(i, 1).getOwner() && 
+					board.getTile(i, 1).getOwner() == board.getTile(i, 2).getOwner())
+				return board.getTile(i, 0).getOwner();
+		}
 		
+		// diagonal scan top left to bottom right
+		if (board.getTile(0, 0).getOwner() != null && 
+				board.getTile(0, 0).getOwner() == board.getTile(1, 1).getOwner() &&
+				board.getTile(1, 1).getOwner() == board.getTile(2, 2).getOwner())
+			return board.getTile(0, 0).getOwner();
+		
+		// diagonal scan bottom left to top right
+		if (board.getTile(0, 2).getOwner() != null && 
+				board.getTile(0, 2).getOwner() == board.getTile(1, 1).getOwner() &&
+				board.getTile(1, 1).getOwner() == board.getTile(2, 0).getOwner())
+			return board.getTile(0, 0).getOwner();	
+		
+		// no winner was found, the game is either unfinished, or it has ended in a draw
 		return null;
 	}
 
