@@ -13,6 +13,7 @@ public class Board {
 				tiles[i][j] = new Tile();
 	}
 
+	// gets the tile specified at location x,y and returns null if out of bounds
 	public Tile getTile(int x, int y)
 	{		
 		// check bounds
@@ -22,6 +23,7 @@ public class Board {
 		return tiles[x][y];
 	}
 
+	// checks for a free tile on the board
 	public boolean hasFreeTile()
 	{
 		for (int i = 0; i < WIDTH; i++)
@@ -32,6 +34,7 @@ public class Board {
 		return false;
 	}
 	
+	// todo: new board style using numbered tiles
 	//   A B C
 	// A * * *
 	// B * * *

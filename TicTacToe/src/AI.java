@@ -3,9 +3,10 @@ public class AI extends Player {
 
 	private AIDifficulty difficulty;
 	
+	// TODO: randomly generated AI name
 	public AI(Board board, String name)
 	{
-		super(board, name);	// TODO: randomly generated AI name
+		super(board, name);
 	}
 	
 	public Move move()

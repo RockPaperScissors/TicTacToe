@@ -3,7 +3,7 @@ import java.util.Scanner;
 import java.util.Stack;
 
 public class Game {
-
+	// tracked by username, which is assumed to be unique
 	//Statistics stats;
 	
 	// maintain a stack of player moves
@@ -20,10 +20,10 @@ public class Game {
 		Scanner console = new Scanner(System.in);
 		
 		// player assignment
-		// TODO: check for empty/invalid names and continue to re-prompt for new name if necessary
-		System.out.print("Player 1 please enter your name: ");
+		// TODO: check for empty/invalid/long/short names and continue to re-prompt for new name if necessary
+		System.out.print("Player 1 please enter your unique username: ");
 		player1 = new Player(board, console.nextLine() + " (P1)");
-		System.out.print("Player 2 please enter your name: ");
+		System.out.print("Player 2 please enter your unique username: ");
 		player2 = new Player(board, console.nextLine() + " (P2)");
 		
 		// randomly assign who goes first and second
@@ -33,7 +33,10 @@ public class Game {
 		
 		// let the first player choose their tile and give the second player what's left
 		System.out.print(current.getName() + ", please choose 'X' or 'O' as your preferred tile icon: ");
-		if (console.next().equalsIgnoreCase("x"))	// TODO: fix so that if first player chooses something other than 'x' or 'o' it doesn't automatically give them 'o'
+		
+		// TODO: fix so that if first player chooses something other than 'x' or 'o' it doesn't automatically give them 'o'
+		// it should reprompt until valid selection is made		
+		if (console.next().equalsIgnoreCase("x"))	
 		{
 			current.setIcon('X');
 			second.setIcon('O');
@@ -77,13 +80,11 @@ public class Game {
 			{
 				System.out.println("This game ended in a tie!");
 			}
-			else
-			{
-				System.out.println(winner.getName() + " won!");
-			}
+			else System.out.println(winner.getName() + " won!");
 			
 			// TODO: save statistics at the end as an entire? or after each move?
 			// do we want to track abandoned game stats?
+			// maybe store a serialized version of the entire game?
 			
 			// offer them to play again
 			System.out.println("Play again? [y/n]: ");

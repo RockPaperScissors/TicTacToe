@@ -19,6 +19,7 @@ public class Tile {
 		// set the owner
 		owner = p;
 		
+		// success
 		return true;		
 	}
 	
