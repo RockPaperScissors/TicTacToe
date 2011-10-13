@@ -2,6 +2,11 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Stack;
 
+/**
+ * TODO:
+ * @author Team Rock Paper Scissors
+ *
+ */
 public class Game {
 	// tracked by username, which is assumed to be unique
 	//Statistics stats;
@@ -9,7 +14,7 @@ public class Game {
 	// maintain a stack of player moves
 	Stack<Move> moves = new Stack<Move>();
 	
-	Board board = new Board();
+	Board board;
 	
 	Player player1;
 	Player player2;
@@ -17,6 +22,7 @@ public class Game {
 	
 	public Game()
 	{
+		board = new Board();
 		Scanner console = new Scanner(System.in);
 		
 		// player assignment
@@ -50,7 +56,6 @@ public class Game {
 		// let players know what tiles they have
 		System.out.println(current.getName() + " has selected tile icon '" + current.getIcon() + "'");
 		System.out.println(second.getName() + " has been automatically assigned tile icon '" + second.getIcon() + "'");
-		
 		
 		Player winner = null;
 		while (true)
@@ -134,7 +139,7 @@ public class Game {
 
 	public void dispose()
 	{
-		// todo: will probably have some cleaning up to do related to the statistics class
+		// TODO: will probably have some cleaning up to do related to the statistics class
 		
 	}
 	
