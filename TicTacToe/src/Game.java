@@ -101,6 +101,10 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * TODO: 
+	 * @return
+	 */
 	public Player winner()
 	{
 		// horizontal scan
@@ -139,8 +143,7 @@ public class Game {
 
 	public void dispose()
 	{
-		// TODO: will probably have some cleaning up to do related to the statistics class
-		
+		// TODO: will probably have some cleaning up to do related to the statistics class in cycle 2		
 	}
 	
 }

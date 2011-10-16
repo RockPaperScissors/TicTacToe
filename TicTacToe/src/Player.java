@@ -32,6 +32,7 @@ public class Player {
 		this.board = board;
 		this.name = name;
 	}
+	
 	/**
 	 * TODO: 
 	 * @return
@@ -59,6 +60,7 @@ public class Player {
 		return icon;
 	}
 	
+	// TODO: figure out any character limitations that should be enforced
 	/**
 	 * TODO:
 	 * @param icon
@@ -117,9 +119,11 @@ public class Player {
 	{
 		// attempt to set the requested tile
 		Tile t = board.getTile(x, y);
-		if (t != null) t.setOwner(this);
+		if (t != null && t.setOwner(this))
+		{
+			return new Move(this, x, y);
+		}
 		else return null;
-		return new Move(this, x, y);
 	}
 		
 	// tile id
