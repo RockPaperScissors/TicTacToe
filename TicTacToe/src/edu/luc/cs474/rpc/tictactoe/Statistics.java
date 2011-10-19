@@ -1,3 +1,4 @@
+package edu.luc.cs474.rpc.tictactoe;
 import java.io.FileInputStream;
 
 // detailed move-by-move statistics or player win/loss counts

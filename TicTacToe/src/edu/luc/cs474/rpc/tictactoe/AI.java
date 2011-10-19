@@ -1,3 +1,4 @@
+package edu.luc.cs474.rpc.tictactoe;
 
 public class AI extends Player {
 

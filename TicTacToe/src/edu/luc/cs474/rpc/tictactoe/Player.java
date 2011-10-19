@@ -1,3 +1,4 @@
+package edu.luc.cs474.rpc.tictactoe;
 import java.util.Scanner;
 
 /**
